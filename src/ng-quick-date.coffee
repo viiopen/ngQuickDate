@@ -247,7 +247,7 @@ app.directive "quickDatepicker", ['ngQuickDateDefaults', '$filter', '$sce', (ngQ
 
     # DATA WATCHES
     # ==================================
-    
+
     # Called when the model is updated from outside the datepicker
     ngModelCtrl.$render = ->
       setCalendarDate(ngModelCtrl.$viewValue)
@@ -295,6 +295,9 @@ app.directive "quickDatepicker", ['ngQuickDateDefaults', '$filter', '$sce', (ngQ
     # This is triggered when the date or time inputs have a blur or enter event.
     scope.selectDateFromInput = (closeCalendar=false) ->
       try
+        time = scope.inputTime.match(/^(\S+)(\s*)(AM|PM)$/i)
+        if !time[2]
+          scope.inputTime = time[1] + " " + time[3]
         tmpDate = parseDateString(scope.inputDate)
         if !tmpDate
           throw 'Invalid Date'
@@ -381,6 +384,7 @@ app.directive "quickDatepicker", ['ngQuickDateDefaults', '$filter', '$sce', (ngQ
                   </tbody>
                 </table>
                 <div class='quickdate-popup-footer'>
+                  <a href='' class='quickdate-save' tabindex='-1' ng-click='toggleCalendar()'>SAVE</a>
                   <a href='' class='quickdate-clear' tabindex='-1' ng-hide='disableClearButton' ng-click='clear()'>Clear</a>
                 </div>
               </div>

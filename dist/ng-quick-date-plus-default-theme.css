@@ -180,7 +180,8 @@ table.quickdate-calendar td.is-today.disabled-date {
 .quickdate-popup-footer {
   margin: 3px 1px 0;
 }
-.quickdate-clear {
+.quickdate-clear,
+.quickdate-save {
   display: inline-block;
   padding: 2px 4px;
   background-color: #ffffff;
@@ -190,6 +191,11 @@ table.quickdate-calendar td.is-today.disabled-date {
   border-radius: 4px;
   text-decoration: none;
 }
-.quickdate-clear:hover {
+.quickdate-clear:hover,
+.quickdate-save:hover {
   background-color: #f2f2f2;
+}
+.quickdate-save {
+  position: absolute;
+  left: 5px;
 }
