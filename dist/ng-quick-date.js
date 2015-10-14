@@ -63,7 +63,7 @@
         link: function(scope, element, attrs, ngModelCtrl) {
           var dateToString, datepickerClicked, datesAreEqual, datesAreEqualToMinute, debounce, getDaysInMonth, initialize, parseDateString, refreshView, setCalendarDate, setConfigOptions, setInputFieldValues, setupCalendarView, stringToDate;
           initialize = function() {
-            var templateDate;
+            var d, templateDate;
             setConfigOptions();
             scope.toggleCalendar(false);
             scope.weeks = [];
@@ -74,7 +74,8 @@
               ngModelCtrl.$setViewValue(attrs.initValue);
             }
             if (!scope.defaultTime) {
-              templateDate = new Date(2013, 0, 1, 12, 0);
+              d = new Date();
+              templateDate = new Date(d.getFullYear(), d.getMonth(), d.getDate(), 12, 0);
               scope.datePlaceholder = $filter('date')(templateDate, scope.dateFormat);
               scope.timePlaceholder = $filter('date')(templateDate, scope.timeFormat);
             }
@@ -300,9 +301,11 @@
               closeCalendar = false;
             }
             try {
-              time = scope.inputTime.match(/^(\S+)(\s*)(AM|PM)$/i);
-              if (!time[2]) {
-                scope.inputTime = time[1] + " " + time[3];
+              if (scope.inputTime) {
+                time = scope.inputTime.match(/^(\S+)(\s*)(AM|PM)$/i);
+                if (!time[2]) {
+                  scope.inputTime = time[1] + " " + time[3];
+                }
               }
               tmpDate = parseDateString(scope.inputDate);
               if (!tmpDate) {
@@ -354,7 +357,7 @@
             return refreshView();
           };
           scope.clear = function() {
-            return scope.selectDate(null, true);
+            return scope.selectDate(null, false);
           };
           return initialize();
         },

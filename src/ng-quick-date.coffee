@@ -67,7 +67,8 @@ app.directive "quickDatepicker", ['ngQuickDateDefaults', '$filter', '$sce', (ngQ
       if typeof(attrs.initValue) == 'string'
         ngModelCtrl.$setViewValue(attrs.initValue)
       if !scope.defaultTime
-        templateDate = new Date(2013, 0, 1, 12, 0)
+        d = new Date()
+        templateDate = new Date(d.getFullYear(), d.getMonth(), d.getDate(), 12, 0)
         scope.datePlaceholder = $filter('date')(templateDate, scope.dateFormat);
         scope.timePlaceholder = $filter('date')(templateDate, scope.timeFormat);
       setCalendarDate()
@@ -295,9 +296,10 @@ app.directive "quickDatepicker", ['ngQuickDateDefaults', '$filter', '$sce', (ngQ
     # This is triggered when the date or time inputs have a blur or enter event.
     scope.selectDateFromInput = (closeCalendar=false) ->
       try
-        time = scope.inputTime.match(/^(\S+)(\s*)(AM|PM)$/i)
-        if !time[2]
-          scope.inputTime = time[1] + " " + time[3]
+        if scope.inputTime
+          time = scope.inputTime.match(/^(\S+)(\s*)(AM|PM)$/i)
+          if !time[2]
+            scope.inputTime = time[1] + " " + time[3]
         tmpDate = parseDateString(scope.inputDate)
         if !tmpDate
           throw 'Invalid Date'
@@ -345,7 +347,7 @@ app.directive "quickDatepicker", ['ngQuickDateDefaults', '$filter', '$sce', (ngQ
 
     # Set the date model to null
     scope.clear = ->
-      scope.selectDate(null, true)
+      scope.selectDate(null, false)
 
     initialize()
 
